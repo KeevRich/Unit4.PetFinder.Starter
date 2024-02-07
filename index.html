@@ -1,0 +1,61 @@
+<!-- index.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pet Finder</title>
+</head>
+<body>
+  <h1>Pet Finder</h1>
+
+  <div>
+    <h2>All Pets</h2>
+    <button onclick="getAllPets()">Get All Pets</button>
+    <div id="allPetsResult"></div>
+  </div>
+
+  <div>
+    <h2>Get Pet by Name</h2>
+    <label for="petName">Enter Pet Name:</label>
+    <input type="text" id="petName" />
+    <button onclick="getPetByName()">Get Pet by Name</button>
+    <div id="petByNameResult"></div>
+  </div>
+
+  <div>
+    <h2>Get Pet by Owner's Name</h2>
+    <label for="ownerName">Enter Owner's Name:</label>
+    <input type="text" id="ownerName" />
+    <button onclick="getPetByOwnerName()">Get Pet by Owner's Name</button>
+    <div id="petByOwnerNameResult"></div>
+  </div>
+
+  <script>
+    async function getAllPets() {
+      const response = await fetch('/api/v1/pets');
+      const pets = await response.json();
+      document.getElementById('allPetsResult').innerHTML = JSON.stringify(pets, null, 
+2);
+    }
+
+    async function getPetByName() {
+      const petName = document.getElementById('petName').value;
+      const response = await fetch(`/api/v1/pets/${petName}`);
+      const pet = await response.json();
+      document.getElementById('petByNameResult').innerHTML = JSON.stringify(pet, null, 
+2);
+    }
+
+    async function getPetByOwnerName() {
+      const ownerName = document.getElementById('ownerName').value;
+      const response = await fetch(`/api/v1/pets/owner?owner=${ownerName}`);
+      const pets = await response.json();
+      document.getElementById('petByOwnerNameResult').innerHTML = JSON.stringify(pets, 
+null, 2);
+    }
+  </script>
+</body>
+</html>
+
